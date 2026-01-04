@@ -25,7 +25,7 @@ final class DashboardController extends Controller
                 ->with('error', 'Tu sesión expiró. Inicia sesión nuevamente.');
         }
 
-        if (!$res->ok()) {
+        if (! $res->ok()) {
             return view('pages.dashboard.index', [
                 'me' => null,
                 'apiError' => $res->json('message') ?? 'No se pudo cargar el dashboard.',

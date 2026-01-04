@@ -73,19 +73,19 @@
                 @if (can('manager-permissions'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarPermissions" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarUI">
-                            <i class="las la-pencil-ruler"></i> <span>@lang('translation.permissions')</span>
+                            aria-expanded="false" aria-controls="sidebarPermissions">
+                            <i class="las la-key "></i> <span>@lang('translation.permissions')</span>
                         </a>
                         <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarPermissions">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="ui-alerts" class="nav-link">@lang('translation.permissions')</a>
+                                            <a href="{{ route('permissions.index') }}" class="nav-link">@lang('translation.permissions')</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="ui-badges" class="nav-link">@lang('translation.role')</a>
-                                        </li>                                        
+                                        </li>                                         
                                     </ul>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                             <li class="nav-item">
                                 <a href="#sidebarCalendar" class="nav-link" data-bs-toggle="collapse" role="button"
                                     aria-expanded="false" aria-controls="sidebarCalendar">
-                                    @lang('translation.calender')
+                                    @lang('translation.calendar')
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarCalendar">
                                     <ul class="nav nav-sm flex-column">

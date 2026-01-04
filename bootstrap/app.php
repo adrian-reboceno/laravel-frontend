@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
-
 use App\Http\Middleware\EnsureApiToken;
 use App\Http\Middleware\NoCache;
 use App\Http\Middleware\SetLocaleFromSession;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // ✅ Aliases para rutas protegidas / no-cache
         $middleware->alias([
             'api.auth' => EnsureApiToken::class,
-            'nocache'  => NoCache::class,
+            'nocache' => NoCache::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
