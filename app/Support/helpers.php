@@ -8,7 +8,7 @@ if (! function_exists('can')) {
     {
         $perms = session('api_user.permissions', []);
 
-        if (!is_array($perms)) {
+        if (! is_array($perms)) {
             return false;
         }
 
@@ -23,11 +23,16 @@ if (! function_exists('canAny')) {
     function canAny(array $permissions): bool
     {
         $perms = session('api_user.permissions', []);
-        if (!is_array($perms)) return false;
+        if (! is_array($perms)) {
+            return false;
+        }
 
         foreach ($permissions as $p) {
-            if (in_array($p, $perms, true)) return true;
+            if (in_array($p, $perms, true)) {
+                return true;
+            }
         }
+
         return false;
     }
 }
@@ -39,11 +44,16 @@ if (! function_exists('canAll')) {
     function canAll(array $permissions): bool
     {
         $perms = session('api_user.permissions', []);
-        if (!is_array($perms)) return false;
+        if (! is_array($perms)) {
+            return false;
+        }
 
         foreach ($permissions as $p) {
-            if (!in_array($p, $perms, true)) return false;
+            if (! in_array($p, $perms, true)) {
+                return false;
+            }
         }
+
         return true;
     }
 }

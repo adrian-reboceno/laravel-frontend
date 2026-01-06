@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 
-
 class LoginController extends Controller
 {
     //
-     public function show(): View
+    public function show(): View
     {
         return view('auth.login');
     }
+
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
@@ -25,15 +25,13 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-       
         /** @var Response $res */
         $res = ApiClient::make()->post('/auth/login', $data);
 
         // Tu API (según lo que mostraste antes) devuelve data.access_token
         $token = $res->json('data.access_token');
 
-
-        if (!$res->ok() || !$token) {
+        if (! $res->ok() || ! $token) {
             Log::warning('Login API failed', [
                 'status' => $res->status(),
                 'body' => $res->json(),
@@ -48,7 +46,7 @@ class LoginController extends Controller
         }
 
         session(['api_token' => $token]);
-         // ✅ Traer datos del usuario (me) y guardarlos en sesión
+        // ✅ Traer datos del usuario (me) y guardarlos en sesión
         /** @var Response $meRes */
         $meRes = ApiClient::make($token)->get('/auth/me');
 
@@ -64,9 +62,9 @@ class LoginController extends Controller
         }
 
         alert()
-        ->success('Bienvenido', 'Sesión iniciada correctamente.')
-        ->showConfirmButton('Cerrar', '#3085d6')
-        ->showCloseButton();
+            ->success('Bienvenido', 'Sesión iniciada correctamente.')
+            ->showConfirmButton('Cerrar', '#3085d6')
+            ->showCloseButton();
 
         // a donde lo mandas al loguear:
         return redirect()->route('dashboard'); // o route('dashboard') si tienes dashboard
@@ -79,6 +77,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('index');
+        return redirect()->route('public.index');
     }
 }

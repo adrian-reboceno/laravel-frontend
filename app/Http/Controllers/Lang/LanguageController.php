@@ -9,9 +9,9 @@ final class LanguageController
 {
     public function set(Request $request, string $locale): RedirectResponse
     {
-        $allowed = ['en','sp','de','it','ru','zh','fr','ar']; // ajusta si quieres más
+        $allowed = ['en', 'sp', 'de', 'it', 'ru', 'zh', 'fr', 'ar']; // ajusta si quieres más
 
-        if (!in_array($locale, $allowed, true)) {
+        if (! in_array($locale, $allowed, true)) {
             return back();
         }
 

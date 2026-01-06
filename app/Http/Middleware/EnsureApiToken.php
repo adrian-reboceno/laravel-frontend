@@ -2,25 +2,40 @@
 
 namespace App\Http\Middleware;
 
+use App\Infrastructure\Http\ApiClient;
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Client\Response; // ✅
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class EnsureApiToken
+final class EnsureApiToken
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): SymfonyResponse
     {
-        if (!session()->has('api_token')) {
-            return redirect()
-                ->route('login')
-                ->with('error', 'Debes iniciar sesión.');
+        $token = session('api_token');
+
+        if (!$token) {
+            return $this->unauthorized($request);
+        }
+
+        /** @var Response $res */  // ✅ Intelephense ya reconoce status()
+        $res = ApiClient::make($token)->get('/auth/me');
+
+        if ($res->status() === 401) {
+            session()->forget(['api_token', 'api_user']);
+
+            return $this->unauthorized($request);
         }
 
         return $next($request);
+    }
+
+    private function unauthorized(Request $request): SymfonyResponse
+    {
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        return redirect()->route('login');
     }
 }
